@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aelle Narendar Varma — Flutter & Full-Stack Developer · Agentic AI Builder</title>
+<meta name="description" content="Aelle Narendar Varma — Flutter & Full-Stack Developer and Agentic AI Builder based in Hyderabad. I ship real products, not just demos." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#0A0F1E;
+    --navy-2:#0e1428;
+    --card:#111a30;
+    --blue:#4F8EF7;
+    --cyan:#00D4FF;
+    --text:#F0F4FF;
+    --muted:#9aa6c4;
+    --border:rgba(79,142,247,0.18);
+    --radius:18px;
+    --maxw:1140px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--navy);
+    color:var(--text);
+    font-family:"Inter",system-ui,sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,.font-head{font-family:"Space Grotesk",sans-serif;letter-spacing:-0.02em;line-height:1.1}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--cyan);color:var(--navy)}
+
+  /* Background ambient glows — pointer-events:none so they never block clicks */
+  .bg-fx{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none}
+  .orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.45;pointer-events:none}
+  .orb.b1{width:520px;height:520px;background:radial-gradient(circle,#4F8EF7,transparent 70%);top:-160px;left:-120px;animation:float1 18s ease-in-out infinite}
+  .orb.b2{width:480px;height:480px;background:radial-gradient(circle,#00D4FF,transparent 70%);bottom:-180px;right:-120px;animation:float2 22s ease-in-out infinite}
+  .grid-overlay{position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background-image:linear-gradient(rgba(79,142,247,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(79,142,247,0.04) 1px,transparent 1px);
+    background-size:46px 46px;
+    mask-image:radial-gradient(ellipse at 50% 0%,#000 40%,transparent 85%);
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 40%,transparent 85%);
+  }
+  @keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,50px)}}
+  @keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-70px,-40px)}}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:100;
+    backdrop-filter:blur(14px);
+    background:rgba(10,15,30,0.7);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s,background .3s;
+  }
+  nav.scrolled{border-bottom:1px solid var(--border);background:rgba(10,15,30,0.88)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .logo{font-family:"Space Grotesk";font-weight:700;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  .logo .dot{width:11px;height:11px;border-radius:50%;background:var(--cyan);box-shadow:0 0 14px var(--cyan);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+  .nav-links{display:flex;gap:6px;align-items:center}
+  .nav-links a{padding:8px 14px;border-radius:10px;font-size:.93rem;color:var(--muted);font-weight:500;transition:.2s}
+  .nav-links a:hover,.nav-links a:focus-visible{color:var(--text);background:rgba(79,142,247,0.12)}
+  .nav-cta{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#04122b !important;font-weight:600 !important}
+  .nav-cta:hover{box-shadow:0 0 22px rgba(0,212,255,0.5)}
+  .burger{display:none;background:none;border:1px solid var(--border);color:var(--text);width:42px;height:42px;border-radius:10px;cursor:pointer;font-size:1.2rem}
+
+  a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+  /* HERO */
+  header.hero{position:relative;padding:90px 0 100px}
+  .hero-card{
+    position:relative;border-radius:26px;padding:64px 52px;
+    background:linear-gradient(160deg,rgba(17,26,48,0.9),rgba(10,15,30,0.6));
+    overflow:hidden;
+  }
+  .hero-card::before{
+    content:"";position:absolute;inset:0;border-radius:26px;padding:2px;
+    background:linear-gradient(120deg,var(--blue),var(--cyan),#9b6bff,var(--blue));
+    background-size:300% 300%;
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;
+    animation:borderflow 6s linear infinite;
+    filter:drop-shadow(0 0 10px rgba(0,212,255,0.35));
+    pointer-events:none;
+  }
+  @keyframes borderflow{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:500;color:var(--cyan);
+    border:1px solid var(--border);background:rgba(0,212,255,0.06);padding:6px 14px;border-radius:50px;margin-bottom:24px}
+  .pill .live{width:8px;height:8px;border-radius:50%;background:#36e07f;box-shadow:0 0 10px #36e07f;animation:pulse 1.8s infinite}
+  .hero h1{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:700;margin-bottom:14px}
+  .hero h1 .grad{background:linear-gradient(120deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .role{font-size:clamp(1.05rem,2.5vw,1.4rem);color:var(--text);font-weight:500;font-family:"Space Grotesk";margin-bottom:18px}
+  .hero .tagline{font-size:1.15rem;color:var(--muted);max-width:560px;margin-bottom:14px}
+  .hero .hero-desc{font-size:1rem;color:var(--muted);max-width:600px;margin-bottom:14px}
+  .hero .loc{color:var(--muted);font-size:.95rem;margin-bottom:32px;display:flex;align-items:center;gap:8px}
+  .cta-row{display:flex;gap:16px;flex-wrap:wrap;position:relative;z-index:10}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:12px;font-weight:600;font-size:1rem;cursor:pointer;transition:.25s;border:1px solid transparent;font-family:"Space Grotesk";position:relative;z-index:10}
+  .btn-primary{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#04122b}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 34px rgba(0,212,255,0.4)}
+  .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+  .btn-ghost:hover{transform:translateY(-3px);border-color:var(--cyan);box-shadow:0 0 22px rgba(0,212,255,0.18)}
+
+  /* SECTION TITLES */
+  section{padding:90px 0}
+  .sec-head{margin-bottom:48px}
+  .sec-tag{color:var(--cyan);font-family:"Space Grotesk";font-weight:600;font-size:.85rem;letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:12px}
+  .sec-head h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:700}
+  .sec-head p{color:var(--muted);margin-top:12px;max-width:640px}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:48px;align-items:start}
+  .bio p{color:var(--muted);font-size:1.08rem;margin-bottom:16px}
+  .bio strong{color:var(--text)}
+  .skill-groups{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .skill-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;transition:.3s}
+  .skill-card:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,0.4)}
+  .skill-card h4{display:flex;align-items:center;gap:10px;font-size:1.05rem;margin-bottom:14px;color:var(--text)}
+  .skill-card .ico{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(79,142,247,0.2),rgba(0,212,255,0.15));font-size:1rem}
+  .tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tag{font-size:.82rem;color:var(--muted);background:rgba(79,142,247,0.08);border:1px solid var(--border);padding:5px 11px;border-radius:50px;transition:.2s}
+  .skill-card:hover .tag{color:var(--text)}
+
+  /* PROJECTS */
+  .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:24px}
+  .proj-card{position:relative;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:transform .3s,box-shadow .3s,border-color .3s;overflow:hidden;display:flex;flex-direction:column}
+  .proj-card::after{content:"";position:absolute;inset:0;border-radius:var(--radius);background:radial-gradient(400px circle at var(--mx,50%) var(--my,0%),rgba(0,212,255,0.12),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none}
+  .proj-card:hover{transform:translateY(-8px);border-color:rgba(0,212,255,0.5);box-shadow:0 22px 50px rgba(0,0,0,0.5),0 0 30px rgba(0,212,255,0.12)}
+  .proj-card:hover::after{opacity:1}
+  .proj-num{font-family:"Space Grotesk";font-size:.8rem;color:var(--cyan);font-weight:600;margin-bottom:8px}
+  .proj-card h3{font-size:1.3rem;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .badge-finalist{font-size:.68rem;font-weight:600;color:#ffd36b;background:rgba(255,200,80,0.12);border:1px solid rgba(255,200,80,0.3);padding:3px 9px;border-radius:50px;letter-spacing:.04em}
+  .proj-card p{color:var(--muted);font-size:.97rem;margin-bottom:18px;flex:1}
+  .stack{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+  .stack span{font-size:.76rem;color:var(--cyan);background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);padding:4px 10px;border-radius:6px}
+  .proj-link{display:inline-flex;align-items:center;gap:7px;font-family:"Space Grotesk";font-weight:600;font-size:.92rem;color:var(--blue);transition:.2s;align-self:flex-start}
+  .proj-link:hover{color:var(--cyan);gap:11px}
+  .proj-link.disabled{color:var(--muted);cursor:default}
+
+  /* ACHIEVEMENTS */
+  .ach-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+  .ach-card{position:relative;background:linear-gradient(160deg,rgba(17,26,48,0.9),rgba(10,15,30,0.5));border:1px solid var(--border);border-radius:var(--radius);padding:26px;transition:.3s;overflow:hidden}
+  .ach-card:hover{transform:translateY(-5px);border-color:var(--cyan);box-shadow:0 16px 40px rgba(0,0,0,0.45)}
+  .ach-card .emoji{font-size:2rem;margin-bottom:14px;display:block}
+  .ach-card h4{font-size:1.05rem;margin-bottom:6px}
+  .ach-card p{color:var(--muted);font-size:.9rem}
+  .ach-line{height:3px;border-radius:3px;margin-top:16px;background:linear-gradient(90deg,var(--blue),var(--cyan));width:0;transition:width 1s ease}
+  .ach-card.in .ach-line{width:60%}
+
+  /* CERTIFICATES */
+  .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+  .cert-card{position:relative;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:.3s;display:flex;flex-direction:column}
+  .cert-card:hover{transform:translateY(-6px);border-color:var(--cyan);box-shadow:0 20px 50px rgba(0,0,0,0.5)}
+  .cert-img{width:100%;height:200px;object-fit:cover;background:var(--navy-2);position:relative}
+  .cert-img.loading{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(79,142,247,0.1),rgba(0,212,255,0.05))}
+  .cert-img.loading::after{content:"Loading...";color:var(--muted);font-size:.9rem;animation:blink 1.5s infinite}
+  @keyframes blink{0%,100%{opacity:.5}50%{opacity:1}}
+  .cert-info{padding:20px;flex:1;display:flex;flex-direction:column}
+  .cert-info h4{font-size:1.1rem;margin-bottom:8px;color:var(--text)}
+  .cert-info p{color:var(--muted);font-size:.9rem;margin-bottom:12px;flex:1}
+  .cert-meta{display:flex;gap:12px;font-size:.82rem;color:var(--cyan);margin-bottom:16px}
+  .cert-view-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;font-weight:500;font-size:.9rem;color:var(--blue);background:rgba(79,142,247,0.08);border:1px solid var(--border);transition:.2s;cursor:pointer;font-family:"Space Grotesk"}
+  .cert-view-btn:hover{color:var(--cyan);background:rgba(0,212,255,0.1);border-color:var(--cyan);transform:translateY(-2px)}
+
+  /* Modal */
+  .modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s}
+  .modal.active{display:flex;opacity:1}
+  .modal-content{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:12px;box-shadow:0 0 60px rgba(0,212,255,0.3)}
+  .modal-close{position:absolute;top:20px;right:30px;font-size:2.5rem;color:var(--text);cursor:pointer;background:none;border:none;transition:.2s;line-height:1}
+  .modal-close:hover{color:var(--cyan);transform:scale(1.1)}
+
+  /* CONTACT */
+  .contact-box{text-align:center;border:1px solid var(--border);border-radius:26px;padding:64px 32px;background:linear-gradient(160deg,rgba(17,26,48,0.85),rgba(10,15,30,0.4));position:relative;overflow:hidden}
+  .contact-box h2{font-size:clamp(2rem,5vw,3rem);margin-bottom:14px}
+  .contact-box p{color:var(--muted);max-width:480px;margin:0 auto 30px}
+  .email-link{display:inline-block;font-family:"Space Grotesk";font-size:clamp(1.1rem,3vw,1.6rem);font-weight:600;background:linear-gradient(120deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:34px;transition:.2s}
+  .email-link:hover{filter:brightness(1.2)}
+  .socials{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .social{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:12px;border:1px solid var(--border);background:rgba(79,142,247,0.05);font-weight:500;font-size:.95rem;transition:.25s}
+  .social:hover{transform:translateY(-4px);border-color:var(--cyan);background:rgba(0,212,255,0.08);box-shadow:0 0 24px rgba(0,212,255,0.2)}
+  .social svg{width:20px;height:20px}
+
+  footer{text-align:center;padding:40px 0;color:var(--muted);font-size:.88rem;border-top:1px solid var(--border)}
+
+  /* Scroll reveal — start visible, animate in */
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* Responsive */
+  @media(max-width:860px){
+    .about-grid{grid-template-columns:1fr;gap:36px}
+    .nav-links{position:fixed;top:68px;right:0;left:0;flex-direction:column;background:rgba(10,15,30,0.97);backdrop-filter:blur(14px);padding:20px;gap:6px;border-bottom:1px solid var(--border);transform:translateY(-130%);transition:transform .35s;align-items:stretch}
+    .nav-links.open{transform:none}
+    .nav-links a{padding:13px 16px}
+    .burger{display:block}
+    .hero-card{padding:42px 26px}
+    .skill-groups{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="bg-fx"><div class="orb b1"></div><div class="orb b2"></div></div>
+<div class="grid-overlay"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="logo"><span class="dot"></span>Narendar Varma</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#certificates">Certificates</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="nav-cta">Hire Me</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-card reveal">
+
+      <span class="pill">
+        <span class="live"></span>
+        Open to SDE &amp; Flutter Internships · Hyderabad, India
+      </span>
+
+      <h1>Narendar <span class="grad">Varma</span></h1>
+
+      <p class="role">
+        Flutter Developer • Full-Stack Developer • AI/ML Enthusiast
+      </p>
+
+      <p class="tagline">
+        Building production-ready web, mobile, and AI-powered applications.
+      </p>
+
+      <p class="hero-desc">
+        Passionate about creating scalable applications with Flutter,
+        Next.js, Node.js, and Python. Currently building AI-powered
+        products while exploring Agentic AI, RAG systems, and modern
+        full-stack technologies.
+      </p>
+
+      <p class="loc">
+        📍 Hyderabad, Telangana, India
+      </p>
+
+      <div class="cta-row">
+        <a href="#projects" class="btn btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'});return false;">
+          🚀 View Projects
+        </a>
+        <a href="#contact" class="btn btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});return false;">
+          💬 Let's Connect
+        </a>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag">// About</span>
+      <h2>Building products people actually use.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="bio reveal">
+        <p>
+          I'm a <strong>Flutter &amp; Full-Stack Developer</strong> passionate about building
+          scalable web and mobile applications that solve real-world problems. I enjoy
+          turning ideas into polished, user-focused products.
+        </p>
+        <p>
+          My stack includes <strong>Flutter, Next.js, React, Node.js, NestJS, Firebase,
+          MongoDB, and Python</strong>. I'm also exploring <strong>AI/ML, RAG systems,
+          and Agentic AI</strong> to build intelligent applications.
+        </p>
+        <p>
+          I'm currently building <strong>GetToolAI</strong>, an AI-powered productivity
+          platform featuring 75+ tools, while continuously improving my skills through
+          real-world projects, hackathons, and open-source development.
+        </p>
+      </div>
+      <div class="skill-groups">
+        <div class="skill-card reveal">
+          <h4><span class="ico">📱</span>Mobile</h4>
+          <div class="tags"><span class="tag">Flutter (Dart)</span><span class="tag">Android (Java/Kotlin)</span><span class="tag">React Native</span><span class="tag">Firebase</span></div>
+        </div>
+        <div class="skill-card reveal">
+          <h4><span class="ico">🎨</span>Frontend</h4>
+          <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Tailwind CSS</span></div>
+        </div>
+        <div class="skill-card reveal">
+          <h4><span class="ico">⚙️</span>Backend</h4>
+          <div class="tags"><span class="tag">NestJS</span><span class="tag">Node.js</span><span class="tag">REST APIs</span><span class="tag">Firebase</span><span class="tag">SQL</span><span class="tag">NoSQL</span></div>
+        </div>
+        <div class="skill-card reveal">
+          <h4><span class="ico">🧠</span>AI / ML</h4>
+          <div class="tags"><span class="tag">NLP</span><span class="tag">Agentic AI</span><span class="tag">Python</span></div>
+        </div>
+        <div class="skill-card reveal" style="grid-column:1/-1">
+          <h4><span class="ico">🛠️</span>Tools</h4>
+          <div class="tags"><span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Vercel</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag">// Projects</span>
+      <h2>Selected work.</h2>
+      <p>A mix of production platforms, mobile apps, and award-winning builds.</p>
+    </div>
+    <div class="proj-grid">
+      <article class="proj-card reveal" tabindex="0">
+        <span class="proj-num">01</span>
+        <h3>GetToolAI</h3>
+        <p>Production AI tools platform aggregating <strong>50+ free AI tools</strong> for real users — live with actual traffic.</p>
+        <div class="stack"><span>Next.js</span><span>TypeScript</span><span>NestJS</span><span>Vercel</span></div>
+        <a class="proj-link" href="https://gettoolai.in" target="_blank" rel="noopener">Visit live site ↗</a>
+      </article>
+
+      <article class="proj-card reveal" tabindex="0">
+        <span class="proj-num">02</span>
+        <h3>FitFlix</h3>
+        <p>Full-featured fitness app with workout reels, gamification, and live leaderboards.</p>
+        <div class="stack"><span>Flutter</span><span>Firebase</span><span>Dart</span></div>
+        <span class="proj-link disabled">Mobile app</span>
+      </article>
+
+      <article class="proj-card reveal" tabindex="0">
+        <span class="proj-num">03</span>
+        <h3>Face Recognition Attendance</h3>
+        <p>Cross-platform attendance app with offline-first face recognition and a local embedding cache.</p>
+        <div class="stack"><span>Flutter</span><span>Android</span><span>Room DB</span><span>REST APIs</span></div>
+        <span class="proj-link disabled">Cross-platform app</span>
+      </article>
+
+      <article class="proj-card reveal" tabindex="0">
+        <span class="proj-num">04</span>
+        <h3>AI Grievance Management <span class="badge-finalist">🏆 SIH 2024 Finalist</span></h3>
+        <p>NLP backend that auto-classifies citizen complaints. National Finalist at Smart India Hackathon 2024.</p>
+        <div class="stack"><span>Flutter</span><span>Python</span><span>NLP</span><span>NestJS</span></div>
+        <span class="proj-link disabled">National Finalist</span>
+      </article>
+
+      <article class="proj-card reveal" tabindex="0">
+        <span class="proj-num">05</span>
+        <h3>Business Web Portals</h3>
+        <p>Two freelance full-stack portals delivered for clients — a Jewellery store and a Hospital.</p>
+        <div class="stack"><span>Next.js</span><span>JavaScript</span><span>REST APIs</span></div>
+        <span class="proj-link disabled">Freelance · 2 portals</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag">// Achievements</span>
+      <h2>Proof of work.</h2>
+    </div>
+    <div class="ach-grid">
+      <div class="ach-card reveal"><span class="emoji">🏆</span><h4>SIH 2024 National Finalist</h4><p>Smart India Hackathon — among the top teams nationally.</p><div class="ach-line"></div></div>
+      <div class="ach-card reveal"><span class="emoji">🚀</span><h4>Shipped gettoolai.in</h4><p>A live AI platform with real users &amp; organic traffic.</p><div class="ach-line"></div></div>
+      <div class="ach-card reveal"><span class="emoji">📜</span><h4>8 Infosys Springboard Certs</h4><p>Java, DSA, DBMS, Agile and more.</p><div class="ach-line"></div></div>
+      <div class="ach-card reveal"><span class="emoji">🎓</span><h4>B.Tech AI &amp; ML</h4><p>Vidya Jyothi Institute of Technology · CGPA 7.5</p><div class="ach-line"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATES -->
+<section id="certificates">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag">// Certificates</span>
+      <h2>Credentials &amp; Certifications.</h2>
+      <p>Professional certifications and course completions.</p>
+    </div>
+    <div class="cert-grid">
+      <div class="cert-card reveal">
+        <img src="images/Pythondatascience.png" alt="Python Data Science Certificate" class="cert-img">
+        <div class="cert-info">
+          <h4>Python for Data Science</h4>
+          <p>Course Completion Certificate from Infosys Springboard.</p>
+          <div class="cert-meta"><span>Infosys Limited</span><span>•</span><span>2026</span></div>
+          <button class="cert-view-btn">View Certificate →</button>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <img src="images/Datanalytics.png" alt="Data Analytics Certificate" class="cert-img">
+        <div class="cert-info">
+          <h4>Data Analytics</h4>
+          <p>Course Completion Certificate from Infosys Springboard.</p>
+          <div class="cert-meta"><span>Infosys Limited</span><span>•</span><span>2026</span></div>
+          <button class="cert-view-btn">View Certificate →</button>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <img src="images/Nosql.png" alt="Introduction to NoSQL databases Certificate" class="cert-img">
+        <div class="cert-info">
+          <h4>Introduction to NoSQL databases</h4>
+          <p>Course Completion Certificate from Infosys Springboard.</p>
+          <div class="cert-meta"><span>Infosys Limited</span><span>•</span><span>2026</span></div>
+          <button class="cert-view-btn">View Certificate →</button>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <img src="images/Java Fundaments.png" alt="Java Fundamentals Certificate" class="cert-img">
+        <div class="cert-info">
+          <h4>Java Fundamentals</h4>
+          <p>Course Completion Certificate from Infosys Springboard.</p>
+          <div class="cert-meta"><span>Infosys Limited</span><span>•</span><span>2026</span></div>
+          <button class="cert-view-btn">View Certificate →</button>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <img src="images/Java dsa.png" alt="Java DSA Certificate" class="cert-img">
+        <div class="cert-info">
+          <h4>Java Data Structures &amp; Algorithms</h4>
+          <p>Course Completion Certificate from Infosys Springboard.</p>
+          <div class="cert-meta"><span>Infosys Limited</span><span>•</span><span>2026</span></div>
+          <button class="cert-view-btn">View Certificate →</button>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <img src="images/DBMS 1.png" alt="DBMS Certificate" class="cert-img">
+        <div class="cert-info">
+          <h4>Database Management Systems</h4>
+          <p>Course Completion Certificate from Infosys Springboard.</p>
+          <div class="cert-meta"><span>Infosys Limited</span><span>•</span><span>2026</span></div>
+          <button class="cert-view-btn">View Certificate →</button>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <img src="images/DBMS 2.png" alt="Advanced DBMS Certificate" class="cert-img">
+        <div class="cert-info">
+          <h4>Advanced Database Management Systems</h4>
+          <p>Course Completion Certificate from Infosys Springboard.</p>
+          <div class="cert-meta"><span>Infosys Limited</span><span>•</span><span>2026</span></div>
+          <button class="cert-view-btn">View Certificate →</button>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <img src="images/Agile.png" alt="Agile Certificate" class="cert-img">
+        <div class="cert-info">
+          <h4>Agile Methodology</h4>
+          <p>Course Completion Certificate from Infosys Springboard.</p>
+          <div class="cert-meta"><span>Infosys Limited</span><span>•</span><span>2026</span></div>
+          <button class="cert-view-btn">View Certificate →</button>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <img src="images/programming java.png" alt="Java Programming Certificate" class="cert-img">
+        <div class="cert-info">
+          <h4>Java Programming</h4>
+          <p>Course Completion Certificate from Infosys Springboard.</p>
+          <div class="cert-meta"><span>Infosys Limited</span><span>•</span><span>2026</span></div>
+          <button class="cert-view-btn">View Certificate →</button>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <img src="images/Google.png" alt="Google Certificate" class="cert-img">
+        <div class="cert-info">
+          <h4>Google Cloud</h4>
+          <p>Course Completion Certificate from Google.</p>
+          <div class="cert-meta"><span>Google</span><span>•</span><span>2026</span></div>
+          <button class="cert-view-btn">View Certificate →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box reveal">
+      <span class="sec-tag">// Contact</span>
+      <h2>Let's build something real.</h2>
+      <p>Got a product to ship or an AI idea to bring to life? I'm one message away.</p>
+      <a class="email-link" href="mailto:vnarendar233@gmail.com">vnarendar233@gmail.com</a>
+      <div class="socials">
+        <a class="social" href="mailto:vnarendar233@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email
+        </a>
+        <a class="social" href="https://github.com/narendarvarmaaelle" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 .9 2.7.6 3.4.5.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.4 5 18.4 5.3 18.4 5.3c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>GitHub
+        </a>
+        <a class="social" href="https://www.linkedin.com/in/narendar-varma-aelle" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21H9z"/></svg>LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Aelle Narendar Varma · Built from scratch with HTML, CSS &amp; JS.</div>
+</footer>
+
+<!-- Certificate Modal -->
+<div class="modal" id="certModal">
+  <button class="modal-close" id="modalClose">&times;</button>
+  <img src="" alt="Certificate" class="modal-content" id="modalImage">
+</div>
+
+<script>
+  // Nav scroll style
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open);
+    burger.textContent = open ? '✕' : '☰';
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    burger.textContent = '☰';
+    burger.setAttribute('aria-expanded', 'false');
+  }));
+
+  // Smooth scroll for ALL anchor links (belt-and-suspenders fix)
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href').slice(1);
+      if (!targetId) return;
+      const target = document.getElementById(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Scroll reveal — use requestAnimationFrame so elements are visible before observing
+  requestAnimationFrame(() => {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = (i % 5 * 0.06) + 's';
+      io.observe(el);
+    });
+
+    // Immediately reveal elements already in viewport on load
+    document.querySelectorAll('.reveal').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('in');
+      }
+    });
+  });
+
+  // Achievement line animation
+  const aio = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.ach-card').forEach(c => aio.observe(c));
+
+  // Project card glow follow
+  document.querySelectorAll('.proj-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // Certificate modal
+  const modal = document.getElementById('certModal');
+  const modalImage = document.getElementById('modalImage');
+  const modalClose = document.getElementById('modalClose');
+
+  document.querySelectorAll('.cert-view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.cert-card');
+      const img = card.querySelector('.cert-img');
+      if (img && img.src) {
+        modalImage.src = img.src;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  modalClose.addEventListener('click', () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+</script>
+</body>
+</html>
